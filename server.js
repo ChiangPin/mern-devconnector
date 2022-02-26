@@ -1,4 +1,6 @@
+// Entry point to server
 const express = require('express');
+// const dotenv = require('dotenv').config();
 const connectDB = require('./config/db');
 const path = require('path');
 
@@ -11,10 +13,10 @@ connectDB();
 app.use(express.json());
 
 // Define Routes
-app.use('/api/users', require('./routes/api/users'));
-app.use('/api/auth', require('./routes/api/auth'));
-app.use('/api/profile', require('./routes/api/profile'));
-app.use('/api/posts', require('./routes/api/posts'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/profile', require('./routes/profile'));
+app.use('/api/posts', require('./routes/posts'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

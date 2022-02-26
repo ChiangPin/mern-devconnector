@@ -10,18 +10,20 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "author": "Brad Traversy",
+  "author": "Yong Chiang Pin",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.0",
     "bcryptjs": "^2.4.3",
     "client": "file:client",
+    "colors": "^1.4.0",
     "config": "^3.3.3",
-    "express": "^4.17.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
     "express-validator": "^6.8.1",
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.8",
+    "mongoose": "^5.13.14",
     "normalize-url": "^5.3.0"
   },
   "devDependencies": {
