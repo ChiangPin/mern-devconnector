@@ -6,6 +6,8 @@ const path = require('path');
 
 const app = express();
 
+const { errorHandler } = require('./middleware/errorMiddleware');
+
 // Connect Database
 connectDB();
 
@@ -17,6 +19,8 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/profile', require('./routes/profile'));
 app.use('/api/posts', require('./routes/posts'));
+
+app.use(errorHandler);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
