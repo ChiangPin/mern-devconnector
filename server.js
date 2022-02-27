@@ -20,10 +20,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Define Routes
-app.use('/api/users', require('./routes/users'));
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/profile', require('./routes/profile'));
-app.use('/api/posts', require('./routes/posts'));
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/profile', require('./routes/profileRoutes'));
+app.use('/api/posts', require('./routes/postRoutes'));
 
 app.use(errorHandler);
 
