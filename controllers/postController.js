@@ -4,6 +4,7 @@ const Post = require('../models/postModel');
 const User = require('../models/userModel');
 
 
+
 // @route    POST api/posts
 // @desc     Create a post
 // @access   Private
