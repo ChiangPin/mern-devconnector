@@ -8,9 +8,9 @@ const { check, validationResult } = require('express-validator');
 const normalize = require('normalize-url');
 const checkObjectId = require('../middleware/checkObjectId');
 
-const Profile = require('../models/Profile');
-const User = require('../models/User');
-const Post = require('../models/Post');
+const Profile = require('../models/profileModel');
+const User = require('../models/userModel');
+const Post = require('../models/postModel');
 
 // @route    GET api/profile/me
 // @desc     Get current users profile

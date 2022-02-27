@@ -1,18 +1,23 @@
-// Entry point to server
 const express = require('express');
-// const dotenv = require('dotenv').config();
+const colors = require('colors');
+const dotenv = require('dotenv').config();
+const { errorHandler } = require('./middleware/errorMiddleware');
 const connectDB = require('./config/db');
+const port = process.env.PORT || 5000;
+
 const path = require('path');
 
-const app = express();
 
-const { errorHandler } = require('./middleware/errorMiddleware');
 
 // Connect Database
 connectDB();
 
+const app = express();
+
+
 // Init Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Define Routes
 app.use('/api/users', require('./routes/users'));
@@ -32,6 +37,5 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(port, () => console.log(`Server started on port ${port}`));
