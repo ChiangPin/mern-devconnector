@@ -20,7 +20,7 @@ const getMe = asyncHandler(async (req, res) => {
 });
 
 // @route    POST api/auth
-// @desc     Authenticate user & get token
+// @desc     Authenticate (login) user & get token
 // @access   Public
 const authenticateUser = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
@@ -30,37 +30,32 @@ const authenticateUser = asyncHandler(async (req, res) => {
 
   const { email, password } = req.body;
 
-  let user = await User.findOne({ email });
+  // Check for user email
+  const user = await User.findOne({ email });
 
-  if (!user) {
-    res.status(400);
-    throw new Error('Invalid Credentials');
-  }
-
+  // Compare plain text password from form with user's password
   const isMatch = await bcrypt.compare(password, user.password);
 
-  if (!isMatch) {
+  if (user && isMatch) {
+    res.status(201).json({
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id)
+    });
+  } else {
     res.status(400);
     throw new Error('Invalid Credentials');
   }
-
-  const payload = {
-    user: {
-      id: user.id
-    }
-  };
-
-  jwt.sign(
-    payload,
-    config.get('jwtSecret'),
-    { expiresIn: '5 days' },
-    (err, token) => {
-      if (err) throw err;
-      res.json({ token });
-    }
-  );
-
 });
+
+const generateToken = (id) => {
+  return jwt.sign(
+    { id },
+    process.env.JWT_SECRET,
+    { expiresIn: '30d' }
+  );
+};
 
 module.exports = {
   getMe,

@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const { protect } = require('../middleware/authMiddleware');
 const { check } = require('express-validator');
 
 const { getMe, authenticateUser } = require('../controllers/authController');
 
 
-router.get('/', auth, getMe);
+router.get('/', protect, getMe);
 router.post(
   '/',
   check('email', 'Please include a valid email').isEmail(),

@@ -1,20 +1,19 @@
 const express = require('express');
 
 const router = express.Router();
-const auth = require('../middleware/auth');
-const { check, } = require('express-validator');
+const { protect } = require('../middleware/authMiddleware'); const { check, } = require('express-validator');
 // bring in normalize to give us a proper url, regardless of what user entered
 const checkObjectId = require('../middleware/checkObjectId');
 
 const { getUserProfile, getUsersProfile, createOrUpdateProfile, getUserById, deleteProfile, addProfileExp, deleteExp, addEducation, deleteEducation, getUserGithubRepos } = require('../controllers/profileController');
 
 
-router.get('/me', auth, getUserProfile);
+router.get('/me', protect, getUserProfile);
 
 
 router.post(
   '/',
-  auth,
+  protect,
   check('status', 'Status is required').notEmpty(),
   check('skills', 'Skills is required').notEmpty(),
   createOrUpdateProfile
@@ -31,12 +30,12 @@ router.get(
 );
 
 
-router.delete('/', auth, deleteProfile);
+router.delete('/', protect, deleteProfile);
 
 
 router.put(
   '/experience',
-  auth,
+  protect,
   check('title', 'Title is required').notEmpty(),
   check('company', 'Company is required').notEmpty(),
   check('from', 'From date is required and needs to be from the past')
@@ -47,12 +46,12 @@ router.put(
 
 
 
-router.delete('/experience/:exp_id', auth, deleteExp);
+router.delete('/experience/:exp_id', protect, deleteExp);
 
 
 router.put(
   '/education',
-  auth,
+  protect,
   check('school', 'School is required').notEmpty(),
   check('degree', 'Degree is required').notEmpty(),
   check('fieldofstudy', 'Field of study is required').notEmpty(),
@@ -64,7 +63,7 @@ router.put(
 
 
 
-router.delete('/education/:edu_id', auth, deleteEducation);
+router.delete('/education/:edu_id', protect, deleteEducation);
 
 
 router.get('/github/:username', getUserGithubRepos);

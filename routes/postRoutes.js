@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const auth = require('../middleware/auth');
-
+const { protect } = require('../middleware/authMiddleware');
 
 const checkObjectId = require('../middleware/checkObjectId');
 
@@ -11,22 +10,22 @@ const { getPosts, getPost, createPost, deletePost, likePost, unlikePost, comment
 
 router.post(
   '/',
-  auth,
+  protect,
   check('text', 'Text is required').notEmpty(),
   createPost
 );
-router.get('/', auth, getPosts);
-router.get('/:id', auth, checkObjectId('id'), getPost);
-router.delete('/:id', [auth, checkObjectId('id')], deletePost);
-router.put('/like/:id', auth, checkObjectId('id'), likePost);
-router.put('/unlike/:id', auth, checkObjectId('id'), unlikePost);
+router.get('/', protect, getPosts);
+router.get('/:id', protect, checkObjectId('id'), getPost);
+router.delete('/:id', [protect, checkObjectId('id')], deletePost);
+router.put('/like/:id', protect, checkObjectId('id'), likePost);
+router.put('/unlike/:id', protect, checkObjectId('id'), unlikePost);
 router.post(
   '/comment/:id',
-  auth,
+  protect,
   checkObjectId('id'),
   check('text', 'Text is required').notEmpty(),
   commentPost
 );
-router.delete('/comment/:id/:comment_id', auth, deleteComment);
+router.delete('/comment/:id/:comment_id', protect, deleteComment);
 
 module.exports = router;
