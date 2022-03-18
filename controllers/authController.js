@@ -10,13 +10,12 @@ const config = require('config');
 // @desc     Get user by token
 // @access   Private
 const getMe = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
+  const { _id, name, email } = await User.findById(req.user.id);
+  res.status(200).json({
+    id: _id,
+    name,
+    email
+  });
 });
 
 // @route    POST api/auth

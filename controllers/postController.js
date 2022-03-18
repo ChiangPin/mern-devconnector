@@ -14,13 +14,12 @@ const createPost = asyncHandler(async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   const user = await User.findById(req.user.id).select('-password');
-  const newPost = new Post({
+  const post = await Post.create({
     text: req.body.text,
     name: user.name,
     avatar: user.avatar,
     user: req.user.id
   });
-  const post = await newPost.save();
   res.status(200).json(post);
 });
 
@@ -86,7 +85,7 @@ const deletePost = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Post not found');
   }
-  // Check user
+  // Make sure the logged in user matches the post user
   if (post.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error('User not authorized');
